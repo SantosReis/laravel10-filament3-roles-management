@@ -37,6 +37,12 @@ class UserResource extends Resource
                     ->dehydrated(fn ($state) => filled($state))
                     ->required(fn (Page $livewire) => ($livewire instanceof CreateUser))
                     ->maxLength(255),
+                Forms\Components\Select::make('roles')
+                    ->multiple()
+                    ->relationship('roles', 'name')->preload(),
+                Forms\Components\Select::make('permissions')
+                    ->multiple()
+                    ->relationship('permissions', 'name')->preload()
             ]);
     }
 
@@ -49,10 +55,10 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
+                    ->date('d M Y')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->date('d M Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 // Tables\Columns\TextColumn::make('updated_at')
